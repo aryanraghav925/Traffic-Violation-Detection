@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Traffic Violation Detector</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      </div>
+      <!-- <h1>Vigile<span>AI</span></h1> -->
+    </div>
+    <span class="badge">TRAFFIC ENFORCEMENT</span>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <div class="hero">
+      <h2>Detect <em>Violations</em><br/>Instantly</h2>
+      <p>Helmet · Tripling · License Plate OCR</p>
+    </div>
+
+    <!-- UPLOAD -->
+    <div class="upload-section">
+
+      <!--
+        KEY FIX:
+        - input[type=file] is placed OUTSIDE the drop zone, hidden off-screen
+        - The drop zone is a <label for="fileInput"> so clicking it triggers the input
+        - Drag & drop is handled via JS on the label element
+      -->
+      <input type="file" id="fileInput" accept="image/*" style="display:none"/>
+
+      <label class="drop-zone" id="dropZone" for="fileInput">
+        <div class="drop-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 16 12 12 8 16"/>
+            <line x1="12" y1="12" x2="12" y2="21"/>
+            <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
+          </svg>
+        </div>
+        <h3>Drop an image here</h3>
+        <p>or click to browse — JPG, PNG, WEBP</p>
+        <img id="previewImg" class="preview-img" alt="preview"/>
+      </label>
+
+      <div class="filename-tag" id="filenameTag">
+        <span>📎</span>
+        <span id="filenameText"></span>
+      </div>
+
+      <div class="error-msg" id="errorMsg"></div>
+
+      <button class="btn-detect" id="detectBtn" disabled onclick="runDetection()">
+        Run Detection
+      </button>
+    </div>
+
+    <!-- LOADER -->
+    <div class="loader" id="loader">
+      <div class="spinner"></div>
+      <p>Running detection pipeline...</p>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="results" id="results">
+      <div class="results-grid">
+        <div class="result-card">
+          <h4>📷 Original</h4>
+          <img id="originalImg" alt="original"/>
+        </div>
+        <div class="result-card">
+          <h4>🔍 Annotated Output</h4>
+          <img id="outputImg" alt="output"/>
+        </div>
+      </div>
+
+      <div class="violations-card">
+        <h4>
+          Violations Detected
+          <span class="count-badge" id="violationCount">0</span>
+        </h4>
+        <div id="violationsList"></div>
+      </div>
+    </div>
+
+    <!-- LOG TABLE -->
+    <div class="log-section">
+      <div class="log-header">
+        <h3>All Violations Log</h3>
+        <button class="btn-refresh" onclick="loadLog()">↻ Refresh</button>
+      </div>
+      <div class="log-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>License Plate</th>
+              <th>No Helmet</th>
+              <th>Tripling</th>
+            </tr>
+          </thead>
+          <tbody id="logBody">
+            <tr><td class="td-empty" colspan="4">No violations logged yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
